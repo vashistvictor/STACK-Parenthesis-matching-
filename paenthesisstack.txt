@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    char data;
+    struct node *nextptr;
+};
+
+int isEmpty(struct node **hd)
+{
+    if(*hd==NULL)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+void push(struct node **hd, char item)
+{
+        struct node *new;
+        new = (struct node*)malloc(sizeof(struct node));
+        new->data = item;
+        new->nextptr = *hd;
+        *hd = new;
+        printf("\npushed element is %c",(*hd)->data);
+}
+
+void pop(struct node **hd)
+{
+    if(isEmpty(hd))
+    {
+        printf("\nStack underflow");
+    }
+    else
+    {
+        struct node *tmp;
+        tmp = *hd;
+        *hd = (*hd)->nextptr;
+        int item = tmp->data;
+        printf("\npopped element is %c",item);
+        free(tmp);
+    }
+}
+
+int main()
+{
+    struct node *head = NULL;
+    char str[100]="(())()(";
+    for(int i=0;str[i]!='\0';i++)
+    {
+        scanf("%s",str);
+    }
+    for(int i=0;str[i]!='\0';i++)
+    {
+        if(str[i]=='(')
+        {
+            push(&head,str[i]);
+        }
+        else
+        {
+            pop(&head);
+        }
+    }
+    if(isEmpty(&head))
+    {
+        printf("String is balanced\n");
+    }
+    else
+    {
+        printf("String is not balanced\n");
+    }
+    return 0;
+}

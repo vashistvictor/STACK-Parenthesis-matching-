@@ -1,0 +1,96 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct node
+{
+    char data;
+    struct node * nextptr;
+}*head;
+
+int isEmpty()
+{
+    if(head==NULL)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+void push(char c)
+{
+    if(head==NULL)
+    {
+        head = (struct node*)malloc(sizeof(struct node));
+        head->data = c;
+        head->nextptr=NULL;
+    }
+    else
+    {
+        struct node * new;
+        new = (struct node*)malloc(sizeof(struct node));
+        new -> data = c;
+        new -> nextptr= head;
+        head = new;
+    }
+}
+
+void pop()
+{
+    if(isEmpty())
+    {
+        printf("stack underflow");
+    }
+    else
+    {
+        struct node *tmp;
+        tmp = head;
+        char value = head->data;
+        head = head->nextptr;
+        printf("%c",value);
+        free(tmp);
+    }
+}
+
+int checkbrackets(char exp[], int n)
+{
+    head = NULL;
+    for(int i=0;i<=n;i++)
+    {
+        if(exp[i]=='(' || exp[i]=='{' || exp[i]=='[')
+        {
+            push(exp[i]);
+        }
+        else if(exp[i]==')' || exp[i]=='}' || exp[i]==']')
+        {
+            pop();
+        }
+    }
+    if(isEmpty())
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+int main()
+{
+    char exp[] = 'a+c-(h+d/(j))-{k+[i*s]}';
+    int n;
+    n = strlen(exp);
+    if(checkbrackets(exp,n))
+    {
+        printf("string is balanced");
+    }
+    else
+    {
+        printf("string is not balanced");
+    }
+    return 0;
+}
